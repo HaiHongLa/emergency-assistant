@@ -1,7 +1,34 @@
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const FirstAidInstruction = require("../models/FirstAidInstructions");
 const Superuser = require("../models/Superuser");
+
+exports.getAllInstructions = async (req, res) => {
+  try {
+    const instructions = await FirstAidInstruction.find();
+    return res.status(200).json(instructions);
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while retrieving the instructions.",
+      error: error,
+    });
+  }
+};
+
+exports.getInstructionById = async (req, res) => {
+  const instructionId = req.params.id;
+  try {
+    const instruction = await FirstAidInstruction.findById(instructionId);
+    if (!instruction) {
+      return res.status(404).json({ message: "Instruction not found." });
+    }
+    return res.status(200).json(instruction);
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while retrieving the instruction.",
+      error: error,
+    });
+  }
+};
 
 exports.createInstruction = async (req, res) => {
   const { username, password, firstAidId, firstAidName, markdownContent } =
@@ -32,6 +59,27 @@ exports.createInstruction = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "An error occurred while creating the first aid instruction.",
+      error: error,
+    });
+  }
+};
+
+exports.deleteInstructionById = async (req, res) => {
+  const instructionId = req.params.id;
+  try {
+    const deletedInstruction = await FirstAidInstruction.findByIdAndDelete(
+      instructionId
+    );
+    if (!deletedInstruction) {
+      return res.status(404).json({ message: "Instruction not found." });
+    }
+    return res.status(200).json({
+      message: "Instruction deleted successfully.",
+      instruction: deletedInstruction,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while deleting the instruction.",
       error: error,
     });
   }
