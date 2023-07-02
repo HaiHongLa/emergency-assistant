@@ -6,7 +6,7 @@ const firstAidRoutes = require("./routes/first-aid-routes");
 
 dotenv.config();
 
-const app = express;
+const app = express();
 
 app.use(bodyParser.json());
 

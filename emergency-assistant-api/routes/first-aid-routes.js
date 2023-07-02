@@ -5,7 +5,7 @@ const router = express.Router();
 
 // router.get('/getAll')
 // router.get('/getById/:id')
-// router.post('/create')
+router.post('/create', firstAidController.createInstruction)
 // router.put('/update/:id')
 // router.delete('/delete/:id')
 
