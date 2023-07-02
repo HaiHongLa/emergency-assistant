@@ -1,0 +1,36 @@
+.instruction-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.instruction-list-item {
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+  text-align: left;
+  flex: 0 0 48%;
+}
+
+@media (max-width: 768px) {
+  .instruction-list-item {
+    flex: 0 0 100%;
+  }
+}
+
+.instruction-list-item:hover {
+  background-color: #e0e0e0;
+}
+
+.common-first-aid-title {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

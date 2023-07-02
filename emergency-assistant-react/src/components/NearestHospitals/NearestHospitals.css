@@ -1,0 +1,24 @@
+.hospital-jumbotron {
+  background-color: #007bff;
+  color: #fff;
+  padding: 2rem;
+  margin-bottom: 0;
+}
+
+.hospital-list {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.hospital-card {
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+}
+
+.hospital-card:hover {
+  transform: translateY(-5px);
+}
+
+.hospital-card .card-body {
+  color: #000;
+}
