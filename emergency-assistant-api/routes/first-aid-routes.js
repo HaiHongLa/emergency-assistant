@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/getAll', firstAidController.getAllInstructions)
 router.get('/getById/:id', firstAidController.getInstructionById)
 router.post('/create', firstAidController.createInstruction)
-// router.put('/update/:id')
-// router.delete('/delete/:id')
+router.put('/update', firstAidController.updateInstruction)
+router.delete('/delete/:id', firstAidController.deleteInstructionById)
 
 module.exports = router;

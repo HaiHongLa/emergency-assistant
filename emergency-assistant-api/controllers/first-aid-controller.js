@@ -15,17 +15,20 @@ exports.getAllInstructions = async (req, res) => {
 };
 
 exports.getInstructionById = async (req, res) => {
-  const instructionId = req.params.id;
+  const firstAidId = req.params.id;
+
   try {
-    const instruction = await FirstAidInstruction.findById(instructionId);
+    const instruction = await FirstAidInstruction.findOne({ firstAidId });
+
     if (!instruction) {
       return res.status(404).json({ message: "Instruction not found." });
     }
-    return res.status(200).json(instruction);
+
+    return res.status(200).json({ instruction });
   } catch (error) {
     return res.status(500).json({
-      message: "An error occurred while retrieving the instruction.",
-      error: error,
+      message: "An error occurred while fetching the instruction.",
+      error: error.message,
     });
   }
 };
@@ -43,13 +46,11 @@ exports.createInstruction = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid username or password." });
     }
-    // Create the new first aid instruction
     const instruction = new FirstAidInstruction({
       firstAidId: firstAidId,
       firstAidName: firstAidName,
       markdownContent: markdownContent,
     });
-    // Save the instruction to the database
     const savedInstruction = await instruction.save();
 
     return res.status(201).json({
@@ -64,23 +65,59 @@ exports.createInstruction = async (req, res) => {
   }
 };
 
-exports.deleteInstructionById = async (req, res) => {
-  const instructionId = req.params.id;
+exports.updateInstruction = async (req, res) => {
+  const { firstAidId, firstAidName, markdownContent } = req.body;
+
   try {
-    const deletedInstruction = await FirstAidInstruction.findByIdAndDelete(
-      instructionId
-    );
-    if (!deletedInstruction) {
+    const instruction = await FirstAidInstruction.findOne({ firstAidId });
+
+    if (!instruction) {
       return res.status(404).json({ message: "Instruction not found." });
     }
+
+    // Update the specified fields
+    if (firstAidName) {
+      instruction.firstAidName = firstAidName;
+    }
+
+    if (markdownContent) {
+      instruction.markdownContent = markdownContent;
+    }
+
+    // Save the updated instruction
+    const updatedInstruction = await instruction.save();
+
+    return res.status(200).json({
+      message: "Instruction updated successfully.",
+      instruction: updatedInstruction,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while updating the instruction.",
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteInstructionById = async (req, res) => {
+  const firstAidId = req.params.id;
+  try {
+    const instruction = await FirstAidInstruction.findOneAndDelete({
+      firstAidId,
+    });
+
+    if (!instruction) {
+      return res.status(404).json({ message: "Instruction not found." });
+    }
+
     return res.status(200).json({
       message: "Instruction deleted successfully.",
-      instruction: deletedInstruction,
+      instruction,
     });
   } catch (error) {
     return res.status(500).json({
       message: "An error occurred while deleting the instruction.",
-      error: error,
+      error: error.message,
     });
   }
 };
