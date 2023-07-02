@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const firstAidRoutes = require("./routes/first-aid-routes");
+const nearestHospitalsRoutes = require("./routes/nearest-hospitals-routes");
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/first-aid", firstAidRoutes);
+app.use("/api/nearest-hospitals", nearestHospitalsRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");
