@@ -1,0 +1,30 @@
+.env
+# Dependency directories
+/node_modules
+
+# Build output
+/dist
+
+# IDE and editor files
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Testing
+/coverage
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
