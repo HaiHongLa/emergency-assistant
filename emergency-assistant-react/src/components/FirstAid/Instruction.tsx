@@ -1,30 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import axios from "axios";
 
-const Instruction: React.FC = (props) => {
-  const markdownContent = `
-## First Aid Instruction Title
+interface InstructionProps {
+  id: string;
+}
 
-### Text Instructions
+const Instruction: React.FC<InstructionProps> = ({ id }) => {
+  const [markdownContent, setMarkdownContent] = useState("");
 
-1. Step 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-2. Step 2: Vestibulum eu libero vitae justo sagittis tincidunt.
-3. Step 3: Proin commodo augue eu semper ultrices.
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/first-aid/getById/${id}`
+        );
+        const { markdownContent } = response.data.instruction;
+        setMarkdownContent(markdownContent);
+      } catch (error) {
+        console.error("Error fetching instruction:", error);
+      }
+    };
 
-### Image
-
-![Instruction Image](path/to/image.jpg)
-
-### Video
-
-[![Instruction Video](path/to/thumbnail.jpg)](https://media.istockphoto.com/id/922348096/photo/blood-drop-character-making-stop-gesture.jpg)
-
-### Additional Information
-
-- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-- Vestibulum eu libero vitae justo sagittis tincidunt.
-- Proin commodo augue eu semper ultrices.
-`;
+    fetchData();
+  }, [id]);
 
   return (
     <div>

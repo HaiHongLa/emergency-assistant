@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const FirstAidInstruction = require("../models/FirstAidInstructions");
 const Superuser = require("../models/Superuser");
 
-exports.getAllInstructions = async (res) => {
+exports.getAllInstructions = async (req, res) => {
   try {
     const instructions = await FirstAidInstruction.find();
     return res.status(200).json(instructions);

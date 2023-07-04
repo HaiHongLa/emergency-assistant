@@ -5,13 +5,13 @@ const Jumbotron: React.FC = () => {
   return (
     <div>
       <div className="container">
-        <div className="jumbotron">
+        <div className="jumbotron custom-jumbotron">
           <h1 className="display-4">Emergency and First Aid Assistant</h1>
           <p className="lead">
             Be prepared for emergencies with our comprehensive first aid
             assistant.
           </p>
-          <a className="btn btn-primary btn-lg" href="#" role="button">
+          <a className="btn btn-primary btn-lg" href="/nearest-hospitals" role="button">
             Contact nearest healthcare facilities
           </a>
         </div>

@@ -17,11 +17,12 @@ exports.findNearestHospitals = async (req, res) => {
       const results = response.data.results;
       const hospitalPromises = results.map(async (result) => {
         const placeId = result.place_id;
-        const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_phone_number&key=${apiKey}`;
+        const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_phone_number,formatted_address&key=${apiKey}`;
 
         const detailsResponse = await axios.get(detailsUrl);
         const hospitalDetails = detailsResponse.data.result;
         const phoneNumber = hospitalDetails?.formatted_phone_number || "N/A";
+        const address = hospitalDetails?.formatted_address || "N/A";
 
         // Calculate distance using Haversine formula
         const { lat: hospitalLat, lng: hospitalLon } = result.geometry.location;
@@ -32,6 +33,7 @@ exports.findNearestHospitals = async (req, res) => {
         return {
           name: result.name,
           phoneNumber: phoneNumber,
+          address: address,
           distance: distance,
           mapsUrl: mapsUrl,
         };

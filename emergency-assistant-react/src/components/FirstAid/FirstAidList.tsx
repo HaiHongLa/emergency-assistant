@@ -1,26 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import "./FirstAidList.css";
 
-const CommonFirstAid: React.FC = () => {
-  const firstAidInstructions = [
-    "Bleeding Control",
-    "CPR (Cardiopulmonary Resuscitation)",
-    "Burns",
-    "Choking",
-    "Fractures",
-    "Head Injuries",
-    "Heatstroke",
-    "Poisoning",
-    "Seizures",
-    "Shock",
-  ];
+interface FirstAidListProps {
+  enteredInstruction: string;
+}
+
+interface FirstAidItem {
+  id: string;
+  firstAidId: string;
+  firstAidName: string;
+  markdownContent: string;
+}
+
+const FirstAidList: React.FC<FirstAidListProps> = ({ enteredInstruction }) => {
+  const [instructions, setInstructions] = useState<FirstAidItem[]>([]);
+
+  useEffect(() => {
+    fetchInstructions();
+  }, [enteredInstruction]);
+
+  const fetchInstructions = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/first-aid/getAll`
+      );
+
+      if (enteredInstruction) {
+        const filteredInstructions = response.data.filter((instruction: FirstAidItem) =>
+          instruction.firstAidName.toLowerCase().includes(enteredInstruction.toLowerCase())
+        );
+        setInstructions(filteredInstructions);
+      } else {
+        setInstructions(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching instructions:", error);
+    }
+  };
+
   return (
     <div className="container">
-      <h2 className="common-first-aid-title">Common First Aid Instructions</h2>
+      <h2 className="common-first-aid-title">First Aid Instructions</h2>
       <ul className="instruction-list">
-        {firstAidInstructions.map((instruction, index) => (
-          <li key={index} className="instruction-list-item">
-            {instruction}
+        {instructions.map((instruction) => (
+          <li key={instruction.firstAidId} className="instruction-list-item">
+            <Link to={`/first-aid-instructions/${instruction.firstAidId}`}>
+              {instruction.firstAidName}
+            </Link>
           </li>
         ))}
       </ul>
@@ -28,4 +56,4 @@ const CommonFirstAid: React.FC = () => {
   );
 };
 
-export default CommonFirstAid;
+export default FirstAidList;

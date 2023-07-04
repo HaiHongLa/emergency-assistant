@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./NearestHospitals.css";
 
-const HospitalsJumbotron: React.FC = () => {
+interface JumbotronProps {
+  onSearchClick: (value: string) => void;
+}
+
+const HospitalsJumbotron: React.FC<JumbotronProps> = ({ onSearchClick }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const hospitalSearchHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSearchClick(searchValue);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
   return (
     <div>
       <div className="container">
@@ -16,8 +31,9 @@ const HospitalsJumbotron: React.FC = () => {
               type="search"
               placeholder="Enter your location"
               aria-label="Search"
+              onChange={handleInputChange}
             />
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-primary" onClick={hospitalSearchHandler}>
               Search
             </button>
           </form>

@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Search.css";
 
-const Search: React.FC = () => {
+interface FASearchProps {
+  onSearchClick: (value: string) => void;
+}
+
+const Search: React.FC<FASearchProps> = ({ onSearchClick }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const FASearchHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSearchClick(searchValue);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
   return (
     <div>
       <div className="container">
@@ -17,8 +31,9 @@ const Search: React.FC = () => {
               type="search"
               placeholder="Search instructions"
               aria-label="Search"
+              onChange={handleInputChange}
             />
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-primary" onClick={FASearchHandler}>
               Search
             </button>
           </form>

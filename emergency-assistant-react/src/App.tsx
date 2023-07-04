@@ -7,6 +7,7 @@ import FirstAidPage from "./pages/FirstAidPage";
 import Instruction from "./components/FirstAid/Instruction";
 import NearestHospitalsPage from "./pages/NearestHospitalsPage";
 import EmergencyContactsPage from "./pages/EmergencyContactsPage";
+import InstructionPage from "./pages/InstructionPage";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <FirstAidPage />
         </Route>
         <Route path="/first-aid-instructions/:id">
-          <Instruction></Instruction>
+          <InstructionPage />
         </Route>
         <Route path="/nearest-hospitals" exact>
           <NearestHospitalsPage />
