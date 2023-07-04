@@ -85,7 +85,7 @@ const HospitalList: React.FC<HospitalListProps> = ({ enteredAddress }) => {
                   <p className="card-text">Location: {hospital.address}</p>
                   <p className="card-text">Telephone: {hospital.phoneNumber}</p>
                   <p className="card-text">
-                    Approximated distance: {hospital.distance}
+                    Approximate distance: {hospital.distance}
                   </p>
                   <div className="card-buttons">
                     <a
